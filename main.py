@@ -16,4 +16,9 @@ def main():
     result_dict = {}
     scrape_amazon(amazon_url, result_dict) 
     scrape_flipkart(flipkart_url, result_dict)
+    amazon_df = pd.DataFrame(result_dict['amazon'], columns=result_dict['amazon'].keys())
+    print(amazon_df)
+
+    flipkart_df = pd.DataFrame(result_dict['flipkart'], columns=result_dict['flipkart'].keys())
+    print(flipkart_df)
     
