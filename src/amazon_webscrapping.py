@@ -21,6 +21,6 @@ class Amazon:
         options =Options()
         options.page_load_strategy = 'normal'
         self.driver =webdriver.Chrome(options= options)
-        self.driver.get(sel.url)
+        self.driver.get(self.url)
         self.driver.maximize_window()
         
