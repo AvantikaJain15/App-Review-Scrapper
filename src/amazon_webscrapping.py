@@ -48,3 +48,58 @@ class Amazon:
                 print("ERROR | Review footer not found")
         except Exception as e:
             print(f"ERROR | Review footer not found Error : {e}")
+
+    def extract_reviews(self):
+        try:
+            review_list_xpath = "//*[@id='cm_cr-review_list']"
+            review_list = self.driver.find_element(By.XPATH, review_list_xpath)
+            reviews = review_list.find_elements(By.CSS_SELECTOR, "div[data-hook='review']")
+
+            if review_list:
+                print(f"INFO | Total reviews to fetch from page {self.page_count} are {len(reviews)}")
+                print(f"INFO | Fetching reviews from page {self.page_count}")
+                for review in reviews:
+                    review_id = review.get_attribute("id")
+                    review_star_xpath = "//*[@id='customer_review-" + str(review_id) + "']/div[2]/a/i"
+                    review_summary_xpath = "//*[@id='customer_review-" + str(review_id) + "']/div[2]/a/span[2]"
+                    review_description_xpath = "//*[@id='customer_review-" + str(review_id) + "']/div[4]/span/span"
+                    try: 
+                        review_star_ele = review.find_element(By.XPATH, review_star_xpath)
+                        review_star_class = review_star_ele.get_attribute("class") 
+                        review_star_ = review_star_class.split()[-2]
+                        review_star = review_star_.split('-')[-1]
+                    except Exception as e:
+                        review_star = None
+                        
+                    try:
+                        review_summary = review.find_element(By.XPATH, review_summary_xpath).text
+                    except Exception as e:
+                        review_summary = None
+                    
+                    try: 
+                        review_description = review.find_element(By.XPATH, review_description_xpath).text
+                    except Exception as e:
+                        review_description = None
+
+                    if review_star:
+                        self.main_dict['Star'].append(review_star)
+                    else:
+                        self.main_dict['Star'].append(None)
+
+                    if review_summary:
+                        self.main_dict['Summary'].append(review_summary)
+                    else:
+                        self.main_dict['Summary'].append(None)
+
+                    if review_description:
+                        self.main_dict['Description'].append(review_description)
+                    else:
+                        self.main_dict['Description'].append(None)
+
+                print(f"INFO | {len(reviews)} reviews from page {self.page_count} appended in dictionary.")
+            else:
+                print(f"INFO | Review list not found on page {self.page_count}.")
+
+        except Exception:
+            print(f"ERROR | Exception occured in extract_reviews function for page {self.page_count}.") 
+    
