@@ -2,13 +2,19 @@
 
 # Overview
 
-This project aims to develop an advanced sentiment analysis tool using a Bi-LSTM model.
+The project aims to scrape product reviews from two major e-commerce websites, Amazon and Flipkart, to gather and analyze customer feedback on various products. This can be useful for comparative analysis, market research, or sentiment analysis.
 
 # Features
+1. Multi-site Scraping
+Amazon and Flipkart: The project is designed to scrape product reviews from two major e-commerce platforms: Amazon and Flipkart.
+2. Dynamic Review Extraction
+Review Details: Extracts key details from product reviews, including star ratings, review summaries, and review descriptions.
+Pagination Handling: Handles pagination to scrape multiple pages of reviews.
+3. Error Handling
+Exception Handling: Includes basic exception handling to manage potential issues during scraping, such as missing elements or failed page loads.
+4. Data Storage
+CSV Export: Saves the scraped review data into CSV files (amazon.csv and flipkart.csv) for further analysis or use.
 
-- Bi-LSTM Model: Implements a Bidirectional Long Short-Term Memory (Bi-LSTM) model for sentiment analysis, providing highly accurate results by considering the context from both directions in the text.
-- Automatic Categorization: Categorizes scraped reviews into predefined categories automatically.
-- Summarization: Utilizes the Transformer-based BART model to summarize product reviews, delivering concise and relevant information.
 
 # Technologies Used
 
@@ -16,9 +22,8 @@ This project aims to develop an advanced sentiment analysis tool using a Bi-LSTM
 - Libraries and Frameworks:
   - **Data Analysis:** Pandas, NumPy
   - **Web Scraping:** Selenium
-  - **Summarization:** Hugging Face's Transformers (BART model)
 
- Prerequisites
+# Prerequisites
 
 Ensure you have the following libraries installed:
 
