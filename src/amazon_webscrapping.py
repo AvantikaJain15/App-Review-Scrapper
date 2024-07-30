@@ -70,7 +70,7 @@ class Amazon:
                         review_star = review_star_.split('-')[-1]
                     except Exception as e:
                         review_star = None
-                        
+
                     try:
                         review_summary = review.find_element(By.XPATH, review_summary_xpath).text
                     except Exception as e:
@@ -102,4 +102,43 @@ class Amazon:
 
         except Exception:
             print(f"ERROR | Exception occured in extract_reviews function for page {self.page_count}.") 
+    def get_all_reviews(self):
+        try:
+            self.get_reviewpage()
+
+            while(1):
+                self.page_count += 1
+                print(f"INFO | Etracting reviews from page {self.page_count}...")
+                self.extract_reviews()
+                
+                print(f"INFO | Searching for next page")
+                next_page_xpath = "//*[@id='cm_cr-pagination_bar']/ul/li[2]/a"
+                if not next_page_xpath:
+                    print(f"INFO | Page {self.page_count} not found")
+                    break
+                next_page_a = self.driver.find_element(By.XPATH, next_page_xpath)
+                if(next_page_a):
+                    next_page_url = next_page_a.get_attribute("href")
+                    if(next_page_url):
+                        print(f"INFO | Next page found")
+                        print(f"INFO | Next page loading...")
+                        print(f"{next_page_url}")
+                        self.driver.get(str(next_page_url))
+                        print(f"INFO | Next page loaded successfully.")
+                    else:
+                        print(f"INFO | URL not found for page {self.page_count}")
+                        break
+                else:
+                    print("INFO | No page left")
+                    break
+        
+        except Exception as e:
+            print(f"ERROR | Exception occured in get_all_reviews function ")
+        
+        return self.main_dict
+        self.close()
     
+    def close(self):
+        if self.driver:
+            self.driver.quit()
+
